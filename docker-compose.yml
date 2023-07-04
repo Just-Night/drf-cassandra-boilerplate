@@ -20,18 +20,28 @@ services:
     ports:
       - '8000:8000'
     depends_on:
+      - pgdb
       - cassandradb
 
+  pgdb:
+    image: postgres:13.3-alpine
+    container_name: postgres
+    env_file:
+      - ./services/postgres/.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   cassandradb:
-      image: bitnami/cassandra:latest
-      container_name: cassandra
-      volumes:
-        - cassandra_data:/var/lib/cassandra/data
-        - ./services/cassandra/script:/docker-entrypoint-initdb.d/
-      env_file:
-        - ./services/cassandra/.env
-      ports:
-        - 9042:9042
+    image: bitnami/cassandra:latest
+    container_name: cassandra
+    volumes:
+      - cassandra_data:/var/lib/cassandra/data
+      - ./services/cassandra/script:/docker-entrypoint-initdb.d/
+    env_file:
+      - ./services/cassandra/.env
+    ports:
+      - 9042:9042
+
 
 #  pgadmin:
 #    container_name: pgadmin4_container

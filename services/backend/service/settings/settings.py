@@ -95,28 +95,16 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django_cassandra_engine',
-#         'NAME': 'cassandra_1',
-#         'USER': os.environ.get('CASSANDRA_USER'),
-#         'PASSWORD': os.environ.get('CASSANDRA_PASSWORD'),
-#         'HOST': os.environ.get('CASSANDRA_HOST'),
-#         'PORT': int(os.environ.get('CASSANDRA_PORT')),
-#         'OPTIONS': {
-#             'replication': {
-#                 'strategy_class': 'SimpleStrategy',
-#                 'replication_factor': 3,
-#             },
-#             'session': {
-#                 'default_timeout': 10,
-#                 'default_fetch_size': 10000,
-#             },
-#         },
-#     },
-# }
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': int(os.environ.get('DB_PORT')),
+    },
+    'cassandra': {
         'ENGINE': 'django_cassandra_engine',
         'NAME': os.environ.get('CASSANDRA_KEYSPACE_NAME'),
         'USER': os.environ.get('CASSANDRA_USER'),

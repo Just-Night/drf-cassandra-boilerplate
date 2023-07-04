@@ -1,7 +1,6 @@
 import uuid
 from cassandra.cqlengine import columns
 from django_cassandra_engine.models import DjangoCassandraModel
-from django.db import models
 
 
 class ExampleModel(DjangoCassandraModel):
