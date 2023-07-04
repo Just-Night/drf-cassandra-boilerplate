@@ -118,11 +118,11 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django_cassandra_engine',
-        'NAME': 'cassandra',
-        'USER': 'cassandra',
-        'PASSWORD': 'cassandra',
-        'TEST_NAME': 'test_db',
-        'HOST': 'cassandradb',
+        'NAME': os.environ.get('CASSANDRA_KEYSPACE_NAME'),
+        'USER': os.environ.get('CASSANDRA_USER'),
+        'PASSWORD': os.environ.get('CASSANDRA_PASSWORD'),
+        'HOST': os.environ.get('CASSANDRA_HOST'),
+        'PORT': int(os.environ.get('CASSANDRA_PORT')),
         'OPTIONS': {
             'replication': {
                 'strategy_class': 'SimpleStrategy',
