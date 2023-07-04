@@ -3,6 +3,7 @@ from pathlib import Path
 
 from datetime import timedelta
 
+from cassandra import ConsistencyLevel
 from libs.utils import get_env_variables_list
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -94,23 +95,52 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django_cassandra_engine',
+#         'NAME': 'cassandra_1',
+#         'USER': os.environ.get('CASSANDRA_USER'),
+#         'PASSWORD': os.environ.get('CASSANDRA_PASSWORD'),
+#         'HOST': os.environ.get('CASSANDRA_HOST'),
+#         'PORT': int(os.environ.get('CASSANDRA_PORT')),
+#         'OPTIONS': {
+#             'replication': {
+#                 'strategy_class': 'SimpleStrategy',
+#                 'replication_factor': 3,
+#             },
+#             'session': {
+#                 'default_timeout': 10,
+#                 'default_fetch_size': 10000,
+#             },
+#         },
+#     },
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django_cassandra_engine',
-        'NAME': os.environ.get('CASSANDRA_CLUSTER_NAME'),
-        'HOST': os.environ.get('CASSANDRA_HOST'),
-        'PORT': os.environ.get('CASSANDRA_PORT'),
-        'USER': os.environ.get('CASSANDRA_USER'),
-        'PASSWORD': os.environ.get('CASSANDRA_PASSWORD'),
+        'NAME': 'cassandra',
+        'USER': 'cassandra',
+        'PASSWORD': 'cassandra',
+        'TEST_NAME': 'test_db',
+        'HOST': 'cassandradb',
         'OPTIONS': {
             'replication': {
                 'strategy_class': 'SimpleStrategy',
                 'replication_factor': 1
+            },
+            'connection': {
+                'consistency': ConsistencyLevel.LOCAL_ONE,
+                'retry_connect': True
+                # + All connection options for cassandra.cluster.Cluster()
+            },
+            'session': {
+                'default_timeout': 10,
+                'default_fetch_size': 10000
+                # + All options for cassandra.cluster.Session()
             }
         }
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 

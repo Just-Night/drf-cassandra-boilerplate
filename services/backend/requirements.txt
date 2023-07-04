@@ -12,5 +12,7 @@ django-nested-admin==3.4.0
 pandas==1.5.2
 
 django-cassandra-engine
+cassandra-driver
+cqlsh
 # Docs
 drf-yasg==1.20.0
