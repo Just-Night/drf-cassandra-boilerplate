@@ -21,18 +21,16 @@ if [ "$DATABASE_02" = "cassandra" ]; then
 
     echo "Checking Cassandra keyspace..."
 
-    until cqlsh -h $CASSANDRA_HOST -p $CASSANDRA_PORT -u $CASSANDRA_USER -p $CASSANDRA_PASSWORD -e "DESCRIBE KEYSPACE $CASSANDRA_KEYSPACE_NAME" > /dev/null 2>&1; do
-
-        echo "test"
-        sleep 0.1
+    until cqlsh $CASSANDRA_HOST $CASSANDRA_PORT -u $CASSANDRA_USER -p $CASSANDRA_PASSWORD -e "DESCRIBE KEYSPACE $CASSANDRA_KEYSPACE_NAME" > /dev/null 2>&1; do
+        sleep 1
     done
 
     echo "Cassandra started"
 fi
 
 
-# python manage.py migrate --no-input
-# python manage.py collectstatic --no-input
-# python manage.py createsuperuser --username $DJANGO_SUPERUSER_LOGIN --email $DJANGO_SUPERUSER_EMAIL --noinput
+python manage.py migrate --database default --no-input
+python manage.py collectstatic --database default --no-input
+python manage.py createsuperuser --username $DJANGO_SUPERUSER_LOGIN --email $DJANGO_SUPERUSER_EMAIL --noinput
 
 python manage.py runserver 0.0.0.0:8000

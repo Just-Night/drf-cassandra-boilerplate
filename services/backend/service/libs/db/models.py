@@ -1,7 +1,9 @@
 import uuid
 from django.utils import timezone
 
+from django_cassandra_engine.models import DjangoCassandraModel
 from django.db import models
+from cassandra.cqlengine import columns
 
 
 # Short "null=True, blank=True" snippet
@@ -35,3 +37,12 @@ class BaseDiscordModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class CassBaseModel(DjangoCassandraModel):
+    __abstract__ = True
+
+    uuid = columns.UUID(
+        primary_key=True,
+        default=uuid.uuid4
+        )
